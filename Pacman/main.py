@@ -1,13 +1,8 @@
 import pygame
-import os
+from Pacman.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from Pacman.agent import PacmanAction, AgentType
 from Pacman.level import PacmanLevel, TileType
 from Pacman.agents.ghosts import RandomGost
-from Pacman.agent import PacmanAction, AgentType
-
-SCREEN_WIDTH = 512
-SCREEN_HEIGHT = 512
-PROJECT_ROOT = os.path.abspath("../")
-GAME_FOLDER = os.path.abspath("./")
 
 
 class PacmanGame:
@@ -59,6 +54,7 @@ class PacmanGame:
 						self.agents.remove(agent)
 
 			self.render()
+		print("Game Over")
 
 	def render(self) -> None:
 		self.level.render(self.screen)

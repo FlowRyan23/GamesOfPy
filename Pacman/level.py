@@ -26,7 +26,7 @@ class PacmanLevel:
 				if x == 0 or y == 0 or x == size[0]-1 or y == size[1]-1:
 					column.append(TileType.WALL)
 				else:
-					column.append(TileType.FREE)
+					column.append(TileType.DOT)
 			tiles.append(column)
 		return tiles
 
@@ -61,3 +61,7 @@ class PacmanLevel:
 		for x in range(len(self.tiles)):
 			for y in range(len(self.tiles[0])):
 				yield self.tiles[x][y], x, y
+
+	def load(self, level_path: str) -> None:
+		# todo
+		pass

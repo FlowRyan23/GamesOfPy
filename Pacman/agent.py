@@ -1,6 +1,6 @@
 import pygame
 from enum import Enum
-from Pacman.main import PROJECT_ROOT, GAME_FOLDER
+from Pacman.constants import PROJECT_ROOT
 
 
 class AgentType(Enum):

@@ -2,30 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae45d539-4c2e-414f-bef0-a8853986f266" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Florian.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pacman/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pacman/agent.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pacman/agents/Neuroman.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pacman/agents/ghosts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pacman/level.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pacman/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/pacman/dot.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/pacman/dot.xcf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/pacman/dot_32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/pacman/pacman_32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/pacman/pacman_64.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/pacman/pacman_orig.xcf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/square_black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/square_blue.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Game.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Game.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pacman/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/square_green.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/square_green.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pacman/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pacman/agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pacman/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pacman/level.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pacman/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pacman/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,67 +24,40 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="3048" />
+          <entry key="py" value="3151" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="3048" />
+          <entry key="Python" value="3151" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="11" />
+          <entry key="py" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="11" />
+          <entry key="Python" value="15" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Pacman/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
+            <state relative-caret-position="238">
+              <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <marker date="1544130253811" expanded="true" signature="794:796" ph="..." />
-                <marker date="1544130253811" expanded="true" signature="794:1673" ph="..." />
-                <marker date="1544130253811" expanded="true" signature="794:1675" ph="..." />
-                <marker date="1544130253811" expanded="true" signature="1814:1994" ph="..." />
-                <marker date="1544130253811" expanded="true" signature="1845:1848" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Pacman/agent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <marker date="1544114407265" expanded="true" signature="161:244" ph="..." />
-                <marker date="1544114407265" expanded="true" signature="256:258" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Pacman/agents/Neuroman.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-                <marker date="1544113526826" expanded="true" signature="90:92" ph="..." />
+                <marker date="1544130862903" expanded="true" signature="727:729" ph="..." />
+                <marker date="1544130862903" expanded="true" signature="727:1627" ph="..." />
+                <marker date="1544130862903" expanded="true" signature="727:1629" ph="..." />
+                <marker date="1544130862903" expanded="true" signature="1768:1948" ph="..." />
+                <marker date="1544130862903" expanded="true" signature="1799:1802" ph="..." />
               </folding>
             </state>
           </provider>
@@ -112,25 +66,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Pacman/agents/ghosts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="34">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
-                <marker date="1544114407298" expanded="true" signature="108:110" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pacman/agent.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="41" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+                <marker date="1544130821840" expanded="true" signature="153:236" ph="..." />
+                <marker date="1544130821840" expanded="true" signature="248:250" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Pacman/level.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="44" column="36" lean-forward="true" selection-start-line="44" selection-start-column="36" selection-end-line="44" selection-end-column="36" />
+            <state relative-caret-position="206">
+              <caret line="28" column="46" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <marker date="1544130107766" expanded="true" signature="136:138" ph="..." />
-                <marker date="1544130107766" expanded="true" signature="1009:1120" ph="..." />
+                <marker date="1544132479636" expanded="true" signature="136:138" ph="..." />
+                <marker date="1544132479636" expanded="true" signature="1008:1119" ph="..." />
               </folding>
             </state>
           </provider>
@@ -157,11 +124,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Pacman/agents/Neuroman.py" />
-        <option value="$PROJECT_DIR$/Pacman/agent.py" />
         <option value="$PROJECT_DIR$/Pacman/agents/ghosts.py" />
-        <option value="$PROJECT_DIR$/Pacman/level.py" />
         <option value="$PROJECT_DIR$/test/main.py" />
+        <option value="$PROJECT_DIR$/Pacman/constants.py" />
+        <option value="$PROJECT_DIR$/Pacman/agent.py" />
         <option value="$PROJECT_DIR$/Pacman/main.py" />
+        <option value="$PROJECT_DIR$/Pacman/level.py" />
       </list>
     </option>
   </component>
@@ -220,6 +188,12 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Projects\python\GamesOfPy\Pacman\agentss" />
+      <recent name="E:\Projects\python\GamesOfPy\Pacman\agents" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -275,6 +249,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1227608" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -310,25 +285,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Pacman/agent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <marker date="1544114407265" expanded="true" signature="161:244" ph="..." />
-            <marker date="1544114407265" expanded="true" signature="256:258" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Pacman/agents/Neuroman.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
-            <marker date="1544113526826" expanded="true" signature="90:92" ph="..." />
           </folding>
         </state>
       </provider>
@@ -339,19 +301,6 @@
           <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
-            <marker date="1544114407298" expanded="true" signature="108:110" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Pacman/level.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="44" column="36" lean-forward="true" selection-start-line="44" selection-start-column="36" selection-end-line="44" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <marker date="1544130107766" expanded="true" signature="136:138" ph="..." />
-            <marker date="1544130107766" expanded="true" signature="1009:1120" ph="..." />
           </folding>
         </state>
       </provider>
@@ -367,17 +316,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Pacman/main.py">
+    <entry file="file://$PROJECT_DIR$/Pacman/agents/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pacman/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pacman/constants.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
+        <state>
+          <caret column="9" selection-start-column="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pacman/agents/ghosts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pacman/agent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="41" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <marker date="1544130253811" expanded="true" signature="794:796" ph="..." />
-            <marker date="1544130253811" expanded="true" signature="794:1673" ph="..." />
-            <marker date="1544130253811" expanded="true" signature="794:1675" ph="..." />
-            <marker date="1544130253811" expanded="true" signature="1814:1994" ph="..." />
-            <marker date="1544130253811" expanded="true" signature="1845:1848" ph="..." />
+            <marker date="1544130821840" expanded="true" signature="153:236" ph="..." />
+            <marker date="1544130821840" expanded="true" signature="248:250" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pacman/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <marker date="1544130862903" expanded="true" signature="727:729" ph="..." />
+            <marker date="1544130862903" expanded="true" signature="727:1627" ph="..." />
+            <marker date="1544130862903" expanded="true" signature="727:1629" ph="..." />
+            <marker date="1544130862903" expanded="true" signature="1768:1948" ph="..." />
+            <marker date="1544130862903" expanded="true" signature="1799:1802" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pacman/level.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="28" column="46" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <marker date="1544132479636" expanded="true" signature="136:138" ph="..." />
+            <marker date="1544132479636" expanded="true" signature="1008:1119" ph="..." />
           </folding>
         </state>
       </provider>

@@ -19,8 +19,8 @@ class PacmanAction(Enum):
 
 class Agent:
 	def __init__(self):
-		self.pos_x = 0
-		self.pos_y = 0
+		self.pos_x = 1
+		self.pos_y = 1
 
 		self.type = None
 		self.no_texture = pygame.image.load(PROJECT_ROOT + "/resources/square_green.png")
@@ -29,11 +29,11 @@ class Agent:
 
 	def render(self, surface: pygame.Surface) -> None:
 		if self.type == AgentType.PACMAN:
-			surface.blit(self.pacman, self.pos_x*32, self.pos_y*32)
+			surface.blit(self.pacman, (self.pos_x*32, self.pos_y*32))
 		elif self.type == AgentType.GHOST:
-			surface.blit(self.ghost, self.pos_x*32, self.pos_y*32)
+			surface.blit(self.ghost, (self.pos_x*32, self.pos_y*32))
 		else:
-			surface.blit(self.no_texture, self.pos_x*32, self.pos_y*32)
+			surface.blit(self.no_texture, (self.pos_x*32, self.pos_y*32))
 
 	def act(self) ->PacmanAction:
 		return PacmanAction.QUIT

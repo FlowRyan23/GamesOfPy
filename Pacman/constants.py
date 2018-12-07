@@ -2,5 +2,6 @@ import os
 
 SCREEN_WIDTH = 512
 SCREEN_HEIGHT = 512
-PROJECT_ROOT = os.path.abspath("../")
-GAME_FOLDER = os.path.abspath("./")
+PROJECT_ROOT = os.path.abspath("../") + "/"
+GAME_FOLDER = os.path.abspath("./") + "/"
+RESOURCE_FOLDER = PROJECT_ROOT + "resources/"

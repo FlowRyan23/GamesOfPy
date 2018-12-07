@@ -35,5 +35,5 @@ class Agent:
 		else:
 			surface.blit(self.no_texture, (self.pos_x*32, self.pos_y*32))
 
-	def act(self) ->PacmanAction:
+	def act(self, game_state) ->PacmanAction:
 		return PacmanAction.QUIT

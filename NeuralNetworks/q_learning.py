@@ -5,12 +5,12 @@ import tensorflow as tf
 from enum import Enum
 from time import time
 from configparser import ConfigParser
-from util.stats import DistributionInfo as Stat
+from Util.stats import DistributionInfo as Stat
+from Pacman.constants import PROJECT_ROOT
 
-PROJECT_ROOT = str(__file__).replace("Networks\\q_learning.py", "")
-TEMP_DIR = PROJECT_ROOT + "util/temp/"
-LOG_DIR = PROJECT_ROOT + "util/logs/"
-DEFAULT_SAVE_PATH = PROJECT_ROOT + "Networks/saved/"
+TEMP_DIR = PROJECT_ROOT + "NeuralNetworks/temp/"
+LOG_DIR = PROJECT_ROOT + "NeuralNetworks/logs/"
+DEFAULT_SAVE_PATH = PROJECT_ROOT + "NeuralNetworks/saved/"
 
 
 class NeuralNetwork:
@@ -54,10 +54,10 @@ class NeuralNetwork:
 			print("adding fc layer to {0:s} with size {1:d} and activation {2:s}".format(self.name, size, ActivationType.string_of(activation)))
 
 		self.output = tf.layers.dense(self.output, units=size,
-									activation=activation,
-									kernel_initializer=tf.glorot_normal_initializer(),
-									name="L" + str(self.n_layers) + "-fc",
-									bias_initializer=tf.random_normal_initializer())
+									  activation=activation,
+									  kernel_initializer=tf.glorot_normal_initializer(),
+									  name="L" + str(self.n_layers) + "-fc",
+									  bias_initializer=tf.random_normal_initializer())
 
 		with tf.name_scope("L" + str(self.n_layers)):
 			tf.summary.histogram("act", self.output)
@@ -98,10 +98,10 @@ class NeuralNetwork:
 			return
 
 		self.output = tf.layers.dense(self.output, units=self.n_classes,
-									activation=ActivationType.RELU,
-									kernel_initializer=tf.glorot_normal_initializer(),
-									name="out",
-									bias_initializer=tf.random_normal_initializer())
+									  activation=ActivationType.RELU,
+									  kernel_initializer=tf.glorot_normal_initializer(),
+									  name="out",
+									  bias_initializer=tf.random_normal_initializer())
 
 		squared_error = tf.square(self.output - self.q_values_new)
 		sum_squared_error = tf.reduce_sum(squared_error, axis=1)
@@ -140,8 +140,8 @@ class NeuralNetwork:
 				steps += len(states_batch)
 
 				feed_dict = {self.x: states_batch,
-							self.q_values_new: q_values_batch,
-							self.learning_rate: learning_rate}
+							 self.q_values_new: q_values_batch,
+							 self.learning_rate: learning_rate}
 
 				_, summary = self.session.run([self.optimizer, self.merged_summary], feed_dict=feed_dict)
 			# print("adding summary")
@@ -433,4 +433,3 @@ def curve_3(name, in_shape, n_classes, drop_out=None):
 		net.add_drop_out(drop_out)
 	net.commit()
 	return net
-

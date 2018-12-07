@@ -3,6 +3,7 @@ from Pacman.constants import RESOURCE_FOLDER, SCREEN_HEIGHT, SCREEN_WIDTH
 from Pacman.agent import PacmanAction, AgentType
 from Pacman.level import PacmanLevel, TileType
 from Pacman.agents.ghosts import RandomGost
+from Pacman.agents.Neuroman import Neuroman
 
 
 class PacmanGame:
@@ -11,9 +12,7 @@ class PacmanGame:
 
 		self.agents = []
 		self.agents.append(RandomGost())
-		pacman = RandomGost()
-		pacman.type = AgentType.PACMAN
-		pacman.pos_x, pacman.pos_y = 5, 5
+		pacman = Neuroman(self.get_game_state_size())
 		self.agents.append(pacman)
 
 		self.move_offsets = {
@@ -59,7 +58,6 @@ class PacmanGame:
 					if other is not agent and same_pos and killable:
 						self.agents.remove(agent)
 
-			print("state:", self.get_game_state())
 			self.render()
 		print("Game Over")
 
@@ -102,6 +100,9 @@ class PacmanGame:
 			state.append(round(agent.pos_x / float(self.level.size[0]), 2))
 			state.append(round(agent.pos_y / float(self.level.size[1]), 2))
 		return state
+
+	def get_game_state_size(self):
+		return self.level.size[0] * self.level.size[1] + len(self.agents) * 3
 
 
 if __name__ == '__main__':

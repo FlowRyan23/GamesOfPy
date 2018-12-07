@@ -11,5 +11,5 @@ class RandomGost(Agent):
 						PacmanAction.MOVE_LEFT,
 						PacmanAction.MOVE_RIGHT]
 
-	def act(self):
+	def act(self, game_state):
 		return choice(self.choices)

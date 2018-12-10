@@ -15,7 +15,6 @@ class RunInfo:
 		self.iteration_count = 0
 		self.last_iter_time = time()
 		self.action_stat = {}
-		self.user_action_count = 0
 		self.net_output = []
 
 		self.episode_count = 0
@@ -26,7 +25,7 @@ class RunInfo:
 		self.mem_up_times = []
 		self.train_times = []
 
-		self.reward_data = {"re_height": [], "re_airtime": [], "re_ball_dist": [], "re_facing_up": [], "re_facing_opp": [], "re_facing_ball": []}
+		self.reward_data = {"re_dots": []}
 
 	def episode(self, mem_up_time, train_time, verbose=True):
 		ep_time = time()-self.last_ep_time
@@ -44,7 +43,6 @@ class RunInfo:
 			print("Memory update took {0:.2f}sec".format(mem_up_time))
 			print("training took {0:.2f}sec".format(train_time))
 			print("Action stat:", self.action_stat)
-			print("User Actions:", self.user_action_count)
 
 		self.last_ep_iter = self.iteration_count
 		self.last_ep_time = time()
@@ -63,17 +61,10 @@ class RunInfo:
 			print("Iteration:", self.iteration_count)
 			print("Action:", action)
 
-	def reward(self, h, at, bd, fu, fo, fb):
-		self.reward_data["re_height"].append(h)
-		self.reward_data["re_airtime"].append(at)
-		self.reward_data["re_ball_dist"].append(bd)
-		self.reward_data["re_facing_up"].append(fu)
-		self.reward_data["re_facing_opp"].append(fo)
-		self.reward_data["re_facing_ball"].append(fb)
+	def reward(self, dots):
+		self.reward_data["re_dots"].append(dots)
 
 	def write(self):
-		with open(TEMP_DIR + "user_actions.csv", "a") as file:
-			file.write(str(self.user_action_count) + "\n")
 		with open(TEMP_DIR + "episode_lengths.csv", "a") as file:
 			file.write(str(self.episode_lengths[-1]) + "\n")
 		with open(TEMP_DIR + "episode_times.csv", "a") as file:
@@ -90,19 +81,18 @@ class RunInfo:
 				file.write(entry_string.rstrip(", ") + "\n")
 			self.net_output = []
 		with open(TEMP_DIR + "reward_info.csv", "a") as file:
-			n_entries = len(self.reward_data["re_height"])
+			n_entries = len(self.reward_data["re_dots"])
 			for i in range(n_entries):
 				entry_string = ""
 				for key in self.reward_data.keys():
 					entry_string += str(round(self.reward_data[key][i], 4)) + ", "
 				file.write(entry_string.rstrip(", ") + "\n")
-			self.reward_data = {"re_height": [], "re_airtime": [], "re_ball_dist": [], "re_facing_up": [], "re_facing_opp": [], "re_facing_ball": []}
+			self.reward_data = {"re_dots": []}
 		# todo action_stat
 
 	def restore(self, bot_id):
 		bot_dir = LOG_DIR + bot_id + "/"
 
-		self.user_action_count = int(sum(np.loadtxt(bot_dir + "user_actions.csv", delimiter=",")))
 		self.episode_lengths = np.loadtxt(bot_dir + "episode_lengths.csv", delimiter=",").tolist()
 		self.episode_times = np.loadtxt(bot_dir + "episode_times.csv", delimiter=",").tolist()
 		self.mem_up_times = np.loadtxt(bot_dir + "mem_up_times.csv", delimiter=",").tolist()

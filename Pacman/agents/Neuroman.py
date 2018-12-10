@@ -3,10 +3,11 @@ import random
 import numpy as np
 from time import time
 from configparser import ConfigParser
+from Pacman.constants import PROJECT_ROOT, GAME_FOLDER
 
 from Pacman.agent import Agent, AgentType, PacmanAction
 import NeuralNetworks.q_learning as nets
-from Util.vector_math import angle, Vector3
+from NeuralNetworks.information import RunInfo
 from NeuralNetworks.q_learning import NeuralNetwork, ReplayMemory
 
 # load/save behavior
@@ -14,13 +15,12 @@ TRAIN = True
 SAVE_NET = True
 COLLECT_DATA = True
 SAVE_DATA = COLLECT_DATA and True
-LOAD = True
+LOAD = False
 PRESERVE = True
-LOAD_BOT_NAME = "FlowBot1536677070"
-PROJECT_ROOT = str(__file__).replace("Agents\\FlowBotv2\\flow_bot.py", "")
-NET_PATH = PROJECT_ROOT + "Networks/saved/"
-TEMP_DIR = PROJECT_ROOT + "util/temp/"
-LOG_DIR = PROJECT_ROOT + "util/logs/"
+LOAD_BOT_NAME = "no name"
+NET_PATH = PROJECT_ROOT + "NeuralNetworks/saved/"
+TEMP_DIR = GAME_FOLDER + "agents/temp/"
+LOG_DIR = GAME_FOLDER + "agents/logs/"
 
 # info
 INFO = True
@@ -71,6 +71,7 @@ class Neuroman(Agent):
 		self.reward_exp = REWARD_EXP
 		self.neg_reward = ALLOW_NEGATIVE_REWARD
 		self.aps = 0  # actions per second
+		self.run_info = RunInfo()
 
 		# list of tuples of (state, action, reward);
 		self.replay_memory = ReplayMemory(n_actions=N_OUTPUT)
@@ -85,11 +86,11 @@ class Neuroman(Agent):
 			self.load(preserve=PRESERVE)
 		else:
 			drop_out_rate = 0.2
-			self.net = nets.flat_3(NET_NAME, [game_state_size], len(self.action_states), drop_out_rate)
+			self.net = nets.flat_3(NET_NAME, [game_state_size], len(self.actions), drop_out_rate)
 
 		# the net is ready to be called
 		self.net_ready = True
-		print("FlowBot ready\n")
+		print(self.name, "ready\n")
 
 	def act(self, game_state):
 		self.aps += 1
@@ -117,15 +118,6 @@ class Neuroman(Agent):
 		self.prev_state = game_state
 		self.prev_q_values = predicted_q_values
 		self.prev_action = action
-
-		# at the end of every episode the data in the replay memory is updated and the net is trained with the new data
-		if self.episode_end_condition.is_met(game_state):
-			self.next_episode()
-
-			if self.run_info.episode_count % FULL_SAVE_INTERVAL == 0:
-				self.save(info_files=True)
-			elif self.run_info.episode_count % SAVE_INTERVAL == 0:
-				self.save()
 
 		# info for debugging purposes
 		cur_time = time()
@@ -176,6 +168,11 @@ class Neuroman(Agent):
 
 		# todo research different strategies for replay memory
 		self.replay_memory.clear()
+
+		if self.run_info.episode_count % FULL_SAVE_INTERVAL == 0:
+			self.save(info_files=True)
+		elif self.run_info.episode_count % SAVE_INTERVAL == 0:
+			self.save()
 
 	def reward(self, cur_game_state):
 		"""
@@ -272,7 +269,7 @@ class Neuroman(Agent):
 					dest.write(src.read())
 
 	def __str__(self):
-		return "FBv2_" + self.name + "(" + str(self.index) + ") " + ("blue" if self.team == 0 else "orange")
+		return self.name
 
 
 def name_increment(net_name):

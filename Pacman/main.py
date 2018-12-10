@@ -38,7 +38,7 @@ class PacmanGame:
 					running = False
 
 			for agent in self.agents:
-				action = agent.act()
+				action = agent.act(game_state=self)
 				if action == PacmanAction.QUIT:
 					self.agents.remove(agent)
 				elif action == PacmanAction.PASS:

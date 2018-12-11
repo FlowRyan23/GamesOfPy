@@ -6,11 +6,11 @@ from enum import Enum
 from time import time
 from configparser import ConfigParser
 from Util.stats import DistributionInfo as Stat
-from Pacman.constants import PROJECT_ROOT
+from Pacman.constants import GAME_FOLDER
 
-TEMP_DIR = PROJECT_ROOT + "NeuralNetworks/temp/"
-LOG_DIR = PROJECT_ROOT + "NeuralNetworks/logs/"
-DEFAULT_SAVE_PATH = PROJECT_ROOT + "NeuralNetworks/saved/"
+TEMP_DIR = GAME_FOLDER + "agents/temp/"
+LOG_DIR = GAME_FOLDER + "NeuralNetworks/logs/"
+DEFAULT_SAVE_PATH = GAME_FOLDER + "NeuralNetworks/saved/"
 
 
 class NeuralNetwork:

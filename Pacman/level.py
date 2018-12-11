@@ -22,6 +22,7 @@ class TileType(Enum):
 
 class PacmanLevel:
 	def __init__(self, size: tuple =(5, 5), level_data_path: str = None):
+		self.level_data_path = level_data_path
 		if level_data_path is None:
 			self.tiles = self.init_tiles(size)
 		else:
@@ -86,6 +87,13 @@ class PacmanLevel:
 				count += 1
 		return count
 
+	def get_n_walkable(self) -> int:
+		count = 0
+		for tile, _, _ in self.all_tiles():
+			if tile == TileType.FREE or tile == TileType.DOT:
+				count += 1
+		return count
+
 	def render(self, surface: Surface):
 		"""
 		renders the level with 32x32 pixels per tile
@@ -111,11 +119,12 @@ class PacmanLevel:
 			for y in range(len(self.tiles[0])):
 				yield self.tiles[x][y], x, y
 
-	def load(self, level_path: str) -> None:
+	def load(self, level_path: str, verbose=False) -> None:
 		"""
 		loads a level from the file system.
 		levels are saved as a space separated list of characters (W for wall, F for free and D for dot)
 		the first line of the file describes the size of the level as width and height
+		:param verbose: en-/disables additional information via print()
 		:param level_path: path to the file with the level data
 		"""
 		self.tiles = []
@@ -124,10 +133,14 @@ class PacmanLevel:
 
 			for y in range(height):
 				row_data = level_data.readline().replace("\n", "").split(" ")
-				print("row:", row_data)
+				if verbose:
+					print("row:", row_data)
 				row = []
 				for tile in row_data:
 					row.append(TileType.get(tile))
 				self.tiles.append(row)
 
 			np.transpose(self.tiles)
+
+	def reset(self):
+		self.load(self.level_data_path)

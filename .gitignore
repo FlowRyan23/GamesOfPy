@@ -58,3 +58,13 @@ docs/_build/
 target/
 
 \.idea/
+
+NeuralNetworks/saved/
+
+NeuralNetworks/temp/
+
+Pacman/agents/logs/
+
+Pacman/agents/temp/
+
+Pacman/NeuralNetworks/saved/

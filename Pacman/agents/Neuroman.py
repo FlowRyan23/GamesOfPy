@@ -3,7 +3,7 @@ import random
 import numpy as np
 from time import time
 from configparser import ConfigParser
-from Pacman.constants import PROJECT_ROOT, GAME_FOLDER
+from Pacman.constants import GAME_FOLDER, GAME_FOLDER
 
 from Pacman.agent import Agent, AgentType, PacmanAction
 import NeuralNetworks.q_learning as nets
@@ -18,7 +18,7 @@ SAVE_DATA = COLLECT_DATA and True
 LOAD = False
 PRESERVE = True
 LOAD_BOT_NAME = "no name"
-NET_PATH = PROJECT_ROOT + "NeuralNetworks/saved/"
+NET_PATH = GAME_FOLDER + "NeuralNetworks/saved/"
 TEMP_DIR = GAME_FOLDER + "agents/temp/"
 LOG_DIR = GAME_FOLDER + "agents/logs/"
 
@@ -28,7 +28,7 @@ EPISODE_INFO = False
 SPAM_INFO = False
 INFO_INTERVAL = 10.0					# in seconds
 FULL_SAVE_INTERVAL = 5					# how often the bot along with all collected data is saved (in iterations)
-SAVE_INTERVAL = 1						# how often the bot is saved (in iterations)
+SAVE_INTERVAL = 2						# how often the bot is saved (in iterations)
 
 # net and training properties
 NET_NAME = "Neuroman" + str(int(time()))
@@ -43,7 +43,8 @@ ALLOW_NEGATIVE_REWARD = True
 
 # rewards
 RE_DOTS = True
-REWARDS = [RE_DOTS]
+RE_GAME_OVER = True
+REWARDS = [RE_DOTS, RE_GAME_OVER]
 REWARD_EXP = 1
 
 
@@ -103,12 +104,12 @@ class Neuroman(Agent):
 		reward = 0
 		if self.prev_state is not None and self.prev_q_values is not None and self.prev_action is not None:
 			reward = self.reward(game_state)
-			self.replay_memory.add(state=self.prev_state,
+			self.replay_memory.add(state=self.prev_state.get_game_state(),
 								   q_values=self.prev_q_values,
-								   action=self.prev_action,
+								   action=self.prev_action.value - 1,
 								   reward=reward)
 
-		predicted_q_values = self.net.run([game_state])
+		predicted_q_values = self.net.run([game_state.get_game_state()])
 		if random.random() < self.epsilon:
 			chosen_class = random.randrange(0, len(predicted_q_values))
 		else:
@@ -138,7 +139,7 @@ class Neuroman(Agent):
 			self.prev_info_time = cur_time  # set time of previous info to now
 			self.aps = 0  # reset actions per second
 
-		self.run_info.iteration(net_output=predicted_q_values, action=action, verbose=SPAM_INFO)
+		self.run_info.iteration(net_output=predicted_q_values, action=action.value-1, verbose=SPAM_INFO)
 
 		return action
 
@@ -180,8 +181,25 @@ class Neuroman(Agent):
 		:param cur_game_state: the state the agent moved to
 		:return: the reward for the change in state
 		"""
-		# todo
-		return 0
+		reward = 0
+
+		if RE_DOTS:
+			n_dots = cur_game_state.level.get_n_dots()
+			n_tiles = cur_game_state.level.get_n_walkable()
+
+			reward += 1 - n_dots/n_tiles
+
+		if RE_GAME_OVER:
+			if cur_game_state.game_over():
+				alive = len([a for a in cur_game_state.agents if a.type == AgentType.PACMAN]) > 0
+				if alive:
+					reward += 1
+
+		return reward**REWARD_EXP
+
+	def reset(self):
+		self.next_episode()
+		self._reset()
 
 	def retire(self):
 		print("retire")

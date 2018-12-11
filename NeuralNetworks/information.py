@@ -1,9 +1,9 @@
 import numpy as np
 from time import time
+from Pacman.constants import GAME_FOLDER
 
-PROJECT_ROOT = str(__file__).replace("util\\information.py", "")
-TEMP_DIR = PROJECT_ROOT + "/util/temp/"
-LOG_DIR = PROJECT_ROOT + "util/logs/"
+TEMP_DIR = GAME_FOLDER + "agents/temp/"
+LOG_DIR = GAME_FOLDER + "agents/logs/"
 
 
 class RunInfo:

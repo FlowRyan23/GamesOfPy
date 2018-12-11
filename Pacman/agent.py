@@ -1,6 +1,6 @@
 import pygame
 from enum import Enum
-from Pacman.constants import PROJECT_ROOT
+from Pacman.constants import RESOURCE_FOLDER
 
 
 class AgentType(Enum):
@@ -21,11 +21,13 @@ class Agent:
 	def __init__(self):
 		self.pos_x = 1
 		self.pos_y = 1
+		self.start_position = (self.pos_x, self.pos_y)
+		self.alive = True
 
 		self.type = None
-		self.no_texture = pygame.image.load(PROJECT_ROOT + "/resources/square_green.png")
-		self.pacman = pygame.image.load(PROJECT_ROOT + "/resources/pacman/pacman_32.png")
-		self.ghost = pygame.image.load(PROJECT_ROOT + "/resources/square_green.png")
+		self.no_texture = pygame.image.load(RESOURCE_FOLDER + "square_green.png")
+		self.pacman = pygame.image.load(RESOURCE_FOLDER + "pacman/pacman_32.png")
+		self.ghost = pygame.image.load(RESOURCE_FOLDER + "square_green.png")
 
 	def render(self, surface: pygame.Surface) -> None:
 		if self.type == AgentType.PACMAN:
@@ -37,3 +39,17 @@ class Agent:
 
 	def act(self, game_state) ->PacmanAction:
 		return PacmanAction.QUIT
+
+	def set_start_position(self, x, y):
+		self.start_position = (x, y)
+		self.pos_x, self.pos_y = self.start_position
+
+	def _reset(self):
+		self.pos_x, self.pos_y = self.start_position
+		self.alive = True
+
+	def reset(self):
+		self._reset()
+
+	def retire(self):
+		pass

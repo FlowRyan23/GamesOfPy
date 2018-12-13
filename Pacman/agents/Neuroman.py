@@ -1,9 +1,11 @@
 import os
 import random
 import numpy as np
+import pygame
 from time import time
+from pygame import Surface
 from configparser import ConfigParser
-from Pacman.constants import GAME_FOLDER, GAME_FOLDER
+from Pacman.constants import PROJECT_ROOT, GAME_FOLDER
 
 from Pacman.agent import Agent, AgentType, PacmanAction
 import NeuralNetworks.q_learning as nets
@@ -18,7 +20,7 @@ SAVE_DATA = COLLECT_DATA and True
 LOAD = False
 PRESERVE = True
 LOAD_BOT_NAME = "no name"
-NET_PATH = GAME_FOLDER + "NeuralNetworks/saved/"
+NET_PATH = PROJECT_ROOT + "NeuralNetworks/saved/"
 TEMP_DIR = GAME_FOLDER + "agents/temp/"
 LOG_DIR = GAME_FOLDER + "agents/logs/"
 
@@ -42,14 +44,15 @@ RELATIVE_COORDINATES = True
 ALLOW_NEGATIVE_REWARD = True
 
 # rewards
-RE_DOTS = True
+RE_DOTS = False
+RE_DOTS_EATEN = False
 RE_GAME_OVER = True
-REWARDS = [RE_DOTS, RE_GAME_OVER]
+REWARDS = [RE_DOTS, RE_DOTS_EATEN, RE_GAME_OVER]
 REWARD_EXP = 1
 
 
 class Neuroman(Agent):
-	def __init__(self, game_state_size):
+	def __init__(self, view_range=5):
 		super().__init__()
 		self.type = AgentType.PACMAN
 
@@ -64,6 +67,7 @@ class Neuroman(Agent):
 		self.name = NET_NAME
 		self.prev_info_time = time()  # used to keep track of time since last info
 		self.actions = [PacmanAction.MOVE_UP, PacmanAction.MOVE_DOWN, PacmanAction.MOVE_LEFT, PacmanAction.MOVE_RIGHT]
+		self.view_range = view_range
 
 		self.epsilon = START_EPSILON
 		self.epsilon_decay = EPSILON_DECAY
@@ -71,12 +75,14 @@ class Neuroman(Agent):
 		self.rel_coords = RELATIVE_COORDINATES
 		self.reward_exp = REWARD_EXP
 		self.neg_reward = ALLOW_NEGATIVE_REWARD
+
 		self.aps = 0  # actions per second
 		self.run_info = RunInfo()
 
 		# list of tuples of (state, action, reward);
 		self.replay_memory = ReplayMemory(n_actions=N_OUTPUT)
 		self.prev_state = None
+		self.prev_input_tensor = None
 		self.prev_action = None
 		self.prev_q_values = None
 		self.reward_accumulator = 0  # for reward functions that need more than one iteration
@@ -87,7 +93,7 @@ class Neuroman(Agent):
 			self.load(preserve=PRESERVE)
 		else:
 			drop_out_rate = 0.2
-			self.net = nets.flat_3(NET_NAME, [game_state_size], len(self.actions), drop_out_rate)
+			self.net = nets.flat_3(NET_NAME, in_shape=[(2*view_range + 1) * (2*view_range + 1)], n_classes=len(self.actions), drop_out=drop_out_rate)
 
 		# the net is ready to be called
 		self.net_ready = True
@@ -96,20 +102,17 @@ class Neuroman(Agent):
 	def act(self, game_state):
 		self.aps += 1
 
-		if self.rel_coords:
-			# todo
-			pass
-
 		# set the reward for the previous iteration; not possible in the first iteration because not previous state and action are available
-		reward = 0
-		if self.prev_state is not None and self.prev_q_values is not None and self.prev_action is not None:
-			reward = self.reward(game_state)
-			self.replay_memory.add(state=self.prev_state.get_game_state(),
+		if self.prev_state is not None and self.prev_q_values is not None and self.prev_action is not None and self.prev_input_tensor is not None:
+			reward = self.online_reward(game_state)
+			self.replay_memory.add(state=self.prev_input_tensor,
 								   q_values=self.prev_q_values,
 								   action=self.prev_action.value - 1,
 								   reward=reward)
 
-		predicted_q_values = self.net.run([game_state.get_game_state()])
+		input_tensor = self.form_state(game_state).flatten()
+		# print("tensor shape", np.shape(input_tensor))
+		predicted_q_values = self.net.run([input_tensor])
 		if random.random() < self.epsilon:
 			chosen_class = random.randrange(0, len(predicted_q_values))
 		else:
@@ -117,6 +120,7 @@ class Neuroman(Agent):
 		action = self.actions[chosen_class]
 
 		self.prev_state = game_state
+		self.prev_input_tensor = input_tensor
 		self.prev_q_values = predicted_q_values
 		self.prev_action = action
 
@@ -175,7 +179,7 @@ class Neuroman(Agent):
 		elif self.run_info.episode_count % SAVE_INTERVAL == 0:
 			self.save()
 
-	def reward(self, cur_game_state):
+	def online_reward(self, cur_game_state):
 		"""
 		calculates the reward the agent receives for transitioning from one state(self.prev_game_info) to another(cur_game_info) using the chosen action
 		:param cur_game_state: the state the agent moved to
@@ -189,15 +193,66 @@ class Neuroman(Agent):
 
 			reward += 1 - n_dots/n_tiles
 
-		if RE_GAME_OVER:
-			if cur_game_state.game_over():
-				alive = len([a for a in cur_game_state.agents if a.type == AgentType.PACMAN]) > 0
-				if alive:
-					reward += 1
-
 		return reward**REWARD_EXP
 
+	def end_reward(self):
+		reward = 0
+		if RE_DOTS_EATEN:
+			de_comp = 1 - self.prev_state.level.get_n_dots()/self.prev_state.level.n_total_dots
+			reward += de_comp
+
+		if RE_GAME_OVER:
+			if self.alive:
+				reward += 1
+			else:
+				reward -= 1
+		return reward**REWARD_EXP
+
+	def form_state(self, game_state):
+		state = np.zeros([2*self.view_range + 1, 2*self.view_range + 1])
+		x_offset, y_offset = self.view_range - self.pos_x, self.view_range - self.pos_y
+
+		level = np.array(game_state.level.as_values()) / 2
+		width, height = game_state.level.size
+		state[x_offset: x_offset+width, y_offset: y_offset+height] = level
+
+		for agent in game_state.agents:
+			if agent is not self and agent.alive:
+				state[agent.pos_x + x_offset][agent.pos_y + y_offset] = -1 if agent.type == AgentType.GHOST else 0
+
+		# print("level")
+		# print(game_state.level)
+		# print("state")
+		# for row in state:
+		# 	print(row)
+		return state
+
+	def net_view(self, surface: Surface) -> None:
+		state = self.form_state(self.prev_state)
+		free, wall, dot, pacman, ghost = self.prev_state.level.free, self.prev_state.level.wall, self.prev_state.level.dot, self.pacman, self.no_texture
+		for x in range(len(state)):
+			for y in range(len(state[0])):
+				tile = state[x][y]
+				if tile == -1:
+					surface.blit(ghost, (x * 32, y * 32))
+				elif tile == 0:
+					surface.blit(free, (x * 32, y * 32))
+				elif tile == 0.5:
+					surface.blit(wall, (x * 32, y * 32))
+				elif tile == 1:
+					surface.blit(dot, (x * 32, y * 32))
+
+		x_offset, y_offset = self.view_range - self.pos_x, self.view_range - self.pos_y
+		surface.blit(pacman, ((self.pos_x+x_offset) * 32, (self.pos_y+y_offset) * 32))
+		pygame.display.flip()
+
 	def reset(self):
+		reward = self.end_reward()
+		print("end reward:", reward)
+		self.replay_memory.add(state=self.prev_input_tensor,
+							   q_values=self.prev_q_values,
+							   action=self.prev_action.value - 1,
+							   reward=reward)
 		self.next_episode()
 		self._reset()
 

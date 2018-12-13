@@ -6,7 +6,7 @@ from time import time
 from Util import stats
 
 PROJECT_ROOT = str(__file__).replace("util/graphs/online_graphs.py", "")
-TEMP_DIR = "C:/Users/FlowRyan23/Documents/Projects/python/GamesOfPy/Pacman/agents/logs/Neuroman1544528622/"
+TEMP_DIR = "C:/Users/FlowRyan23/Documents/Projects/python/GamesOfPy/Pacman/agents/temp/"
 LOG_DIR = PROJECT_ROOT + "util/logs/"
 
 

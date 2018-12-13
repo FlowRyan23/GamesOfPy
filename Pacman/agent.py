@@ -51,5 +51,9 @@ class Agent:
 	def reset(self):
 		self._reset()
 
+	def kill(self):
+		self.pos_x, self.pos_y = (-1, -1)
+		self.alive = False
+
 	def retire(self):
 		pass

@@ -10,12 +10,12 @@ from Pacman.agents.Neuroman import Neuroman
 class PacmanGame:
 	def __init__(self):
 		self.running = False
-		self.level = PacmanLevel(level_data_path=RESOURCE_FOLDER + "pacman/levels/PW_advanced_02.pml")
+		self.level = PacmanLevel(level_data_path=RESOURCE_FOLDER + "pacman/levels/PW_easy_01.pml")
 
 		self.agents = []
 		self.agents.append(RandomGost())
-		pacman = Neuroman(self.get_game_state_size() + 3)
-		self.agents.append(pacman)
+		self.pacman = Neuroman(max(self.level.size))
+		self.agents.append(self.pacman)
 
 		# place the agents in the world
 		# ghosts start in a random location on the map
@@ -26,7 +26,7 @@ class PacmanGame:
 					x, y = randrange(1, self.level.size[0] - 1), randrange(1, self.level.size[1] - 1)
 				agent.set_start_position(x, y)
 			else:
-				agent.set_start_position(x=4, y=4)
+				agent.set_start_position(x=5, y=5)
 
 		self.move_offsets = {
 			PacmanAction.MOVE_UP: (0, -1),
@@ -48,6 +48,8 @@ class PacmanGame:
 		while self.running:
 			self.tick()
 			self.render()
+			# self.pacman.render(self.screen)
+			# self.pacman.net_view(self.screen)
 
 			if self.game_over():
 				self.reset()
@@ -63,6 +65,9 @@ class PacmanGame:
 				return
 
 		for agent in self.agents:
+			if not agent.alive:
+				continue
+
 			action = agent.act(game_state=self)
 			if action == PacmanAction.QUIT:
 				self.agents.remove(agent)
@@ -81,7 +86,7 @@ class PacmanGame:
 				same_pos = agent.pos_x == other.pos_x and agent.pos_y == other.pos_y
 				killable = agent.type == AgentType.PACMAN and other.type == AgentType.GHOST
 				if other is not agent and same_pos and killable:
-					agent.alive = False
+					agent.kill()
 
 	def render(self) -> None:
 		"""
@@ -94,9 +99,9 @@ class PacmanGame:
 		pygame.display.flip()
 
 	def reset(self):
-		self.level.reset()
 		for agent in self.agents:
 			agent.reset()
+		self.level.reset()
 
 	def game_over(self) -> bool:
 		"""

@@ -8,7 +8,6 @@ LOG_DIR = GAME_FOLDER + "agents/logs/"
 
 class RunInfo:
 	def __init__(self):
-		self.net = None
 		self.run_start_time = time()
 		self.total_time = 0
 

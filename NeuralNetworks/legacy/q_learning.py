@@ -1,11 +1,13 @@
-import os
 import math
+import os
+from configparser import ConfigParser
+from time import time
+
 import numpy as np
 import tensorflow as tf
-from enum import Enum
-from time import time
-from configparser import ConfigParser
-from util.stats import DistributionInfo as Stat
+
+from NeuralNetworks.legacy.neural_network import NeuralNetwork, ActivationType
+from Util.stats import DistributionInfo as Stat
 
 PROJECT_ROOT = str(__file__).replace("Networks\\q_learning.py", "")
 TEMP_DIR = PROJECT_ROOT + "util/temp/"
@@ -13,7 +15,7 @@ LOG_DIR = PROJECT_ROOT + "util/logs/"
 DEFAULT_SAVE_PATH = PROJECT_ROOT + "Networks/saved/"
 
 
-class NeuralNetwork:
+class QNeuralNetwork(NeuralNetwork):
 	def __init__(self, name, input_shape, n_classes, save_path=DEFAULT_SAVE_PATH):
 		self.net_config = ConfigParser()
 		self.net_config["Format"] = {"input_shape": str(input_shape).rstrip("]").lstrip("["), "n_classes": str(n_classes), "n_layers": 0}
@@ -184,7 +186,7 @@ class NeuralNetwork:
 		name_ = (name if new_name is None else new_name)
 		input_shape = [int(s) for s in config["Format"]["input_shape"].split(",")]
 		n_classes = int(config["Format"]["n_classes"])
-		net = NeuralNetwork(name_, input_shape, n_classes, save_path=path)
+		net = QNeuralNetwork(name_, input_shape, n_classes, save_path=path)
 
 		n_layers = int(config["Format"]["n_layers"])
 		if verbose:
@@ -209,25 +211,6 @@ class NeuralNetwork:
 
 	def get_step_count(self):
 		return int(self.net_config["Stats"]["total_steps"])
-
-
-class ActivationType(Enum):
-	RELU = tf.nn.relu
-	SIGMOID = tf.nn.sigmoid
-
-	@staticmethod
-	def get(act_type):
-		if act_type == "RELU":
-			return ActivationType.RELU
-		if act_type == "SIGMOID":
-			return ActivationType.SIGMOID
-
-	@staticmethod
-	def string_of(act_type):
-		if act_type == ActivationType.RELU:
-			return "RELU"
-		if act_type == ActivationType.SIGMOID:
-			return "SIGMOID"
 
 
 class ReplayMemory:
@@ -385,7 +368,7 @@ class ReplayMemory:
 
 
 def flat_1(name, in_shape, n_classes, drop_out=None):
-	net = NeuralNetwork(name, in_shape, n_classes)
+	net = QNeuralNetwork(name, in_shape, n_classes)
 	net.add_fc(512, activation=ActivationType.RELU)
 	if drop_out is not None:
 		net.add_drop_out(drop_out)
@@ -394,7 +377,7 @@ def flat_1(name, in_shape, n_classes, drop_out=None):
 
 
 def flat_2(name, in_shape, n_classes, drop_out=None):
-	net = NeuralNetwork(name, in_shape, n_classes)
+	net = QNeuralNetwork(name, in_shape, n_classes)
 	net.add_fc(512, activation=ActivationType.RELU)
 	if drop_out is not None:
 		net.add_drop_out(drop_out)
@@ -406,7 +389,7 @@ def flat_2(name, in_shape, n_classes, drop_out=None):
 
 
 def flat_3(name, in_shape, n_classes, drop_out=None):
-	net = NeuralNetwork(name, in_shape, n_classes)
+	net = QNeuralNetwork(name, in_shape, n_classes)
 	net.add_fc(512, activation=ActivationType.RELU)
 	if drop_out is not None:
 		net.add_drop_out(drop_out)
@@ -421,7 +404,7 @@ def flat_3(name, in_shape, n_classes, drop_out=None):
 
 
 def curve_3(name, in_shape, n_classes, drop_out=None):
-	net = NeuralNetwork(name, in_shape, n_classes)
+	net = QNeuralNetwork(name, in_shape, n_classes)
 	net.add_fc(256, activation=ActivationType.RELU)
 	if drop_out is not None:
 		net.add_drop_out(drop_out)

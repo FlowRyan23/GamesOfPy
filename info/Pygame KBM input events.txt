@@ -1,0 +1,19 @@
+Pygame Events
+
+Type	Name			Description										Attributes
+1		ActiveEvent		Weather the mouse is hovered over the window	gain (0: not on window, 1:on window)
+																		state (tbd - always 1)
+2		KeyDown			When a key on the keyboard is pressed			unicode (unicode symbol for that key)
+																		key (integer id for the key)
+																		mod (tbd - always 0)
+																		scancode (tbd)
+3		KeyUp			When a key on the kayboard is released			key (integer id for the key)
+																		mod (tbd - always 0)
+																		scancode (tbd)
+4		MouseMotion		When the mouse is moved							pos (width,height-tuple (int) relative to the top left corner of the window)
+																		rel (difference between previous and current mouse position, width,height-tuple)
+																		buttons (3-tupel of 0 or 1, 1.left button 2.middle button 3.right button)
+5		MouseButtonDown	When a button on the mouse is pressed			pos (width,height-tuple (int) relative to the top left corner of the window)
+																		button (int id of the button (1:LMB, 2:MMB, 3:RMB, 4:Scroll-Up, 5:Scroll-Down, 6:Back, 7:Forward)
+6		MouseButtonUp	When a button on the mouse is released			pos (width,height-tuple (int) relative to the top left corner of the window)
+																		button (int id of the button (1:LMB, 2:MMB, 3:RMB, 4:Scroll-Up, 5:Scroll-Down, 6:Back, 7:Forward)

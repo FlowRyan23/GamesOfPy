@@ -1,4 +1,5 @@
 import pygame
+from time import time
 from enum import Enum
 from engine.world import World
 from engine.input_handling import InputHandler
@@ -19,6 +20,8 @@ class GameLoop:
 	def __init__(self, title: str = "game", width: int = DEFAULT_SCREEN_WIDTH, height: int = DEFAULT_SCREEN_HEIGHT) -> None:
 		self.running = False
 		self.paused = False
+		self.tick_count = 0
+
 		pygame.init()
 		pygame.display.set_caption(title)
 		self.screen = pygame.display.set_mode((width, height))
@@ -26,7 +29,6 @@ class GameLoop:
 		self.input_handler = None
 		self.world = None
 		self.game_over_mode = GameOverMode.QUIT
-
 		self.game_over_ops = {
 			GameOverMode.QUIT: self.quit,
 			GameOverMode.STOP: self.pause,		# todo make not unpausable
@@ -57,6 +59,9 @@ class GameLoop:
 		print("Done")
 
 	def tick(self) -> None:
+		self.tick_count += 1
+		tick_time = time()
+
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.running = False
@@ -64,6 +69,8 @@ class GameLoop:
 				return
 			elif 0 < event.type < 8:
 				self.input_handler.handle(event)
+
+		self.world.tick(self.tick_count, tick_time)
 
 	def render(self) -> None:
 		"""
@@ -93,4 +100,4 @@ class GameLoop:
 
 if __name__ == '__main__':
 	game = GameLoop()
-	game.run(world=World(), input_handler=InputHandler())
+	game.run(world=World("../resources/levels/empty_square_25/"), input_handler=InputHandler())

@@ -3,6 +3,72 @@ import numpy as np
 from scipy.linalg import expm
 
 
+class Vector2:
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+
+	@staticmethod
+	def from_list(l):
+		return Vector2(l[0], l[1])
+
+	def invert(self, dims=(True, True)):
+		if dims[0]:
+			self.x = -self.x
+		if dims[1]:
+			self.y = -self.y
+
+	def as_list(self) -> list:
+		return [self.x, self.y]
+
+	def as_tuple(self) -> tuple:
+		return self.x, self.y
+
+	def __add__(self, other):
+		return Vector2(self.x + other.x, self.y + other.y)
+
+	def __sub__(self, other):
+		return Vector2(self.x - other.x, self.y - other.y)
+
+	def __mul__(self, other) -> float:
+		return self.x * other.x + self.y * other.y
+
+	def __abs__(self) -> float:
+		return math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2))
+
+	def __eq__(self, other) -> bool:
+		# bad practice since coordinates are often float/double
+		return self.x == other.x and self.y == other.y
+
+	def __floor__(self):
+		return Vector2(math.floor(self.x), math.floor(self.y))
+
+	def __ceil__(self):
+		return Vector2(math.ceil(self.x), math.ceil(self.y))
+
+	def __invert__(self):
+		return Vector2(-self.x, -self.y)
+
+	def __round__(self, n=None):
+		return Vector2(round(self.x, n), round(self.y, n))
+
+	def __str__(self) -> str:
+		return "x: " + str(round(self.x, 3)) + ", y: " + str(round(self.y, 3))
+
+	def scalar_mul(self, val):
+		return Vector2(self.x * val, self.y * val)
+
+	def cross_mul(self, other):
+		# todo implement
+		raise NotImplementedError("cross multiplication for Vector2 is not implemented")
+
+	def e_mul(self, other):
+		return Vector2(self.x * other.x, self.y * other.y)
+
+	def normalize(self):
+		return self.scalar_mul(1 / abs(self))
+
+
 class Vector3:
 	def __init__(self, x, y, z):
 		self.x = x
